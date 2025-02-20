@@ -5,17 +5,40 @@
 	> Created Time: Thu 20 Feb 2025 08:55:04 AM CST
  ************************************************************************/
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<sys/types.h>
+#include"all_of_include.h"
 
 int main(void){
-	pid_t pid = fork();
-	if(pid == 0){
-		printf("I am sun of process.\n");
-	}
-	if(pid != 0){
-		printf("I am father of process.\n");
+	while(1){
+		char currentPath[MAXPATH];
+		char str[MAXINPUT];
+		char **args;
+		int status;
+		pid_t pid;
+
+		if(!getcwd(currentPath,sizeof(currentPath))){
+			perror("getcwd error");
+			exit(0);
+		}
+		char *envp[]={
+			currentPath,"TERM=console",NULL
+		};
+		printf(GREEN BOLD "mlxh_shell " RESET YELLOW "[%s]" RESET WHITE BOLD" > " RESET,currentPath);
+		gets(str);
+		args = remove_space(str);
+		pid = fork();
+		if(pid == 0){
+			execve(args[0],args,envp);
+			exit(1);
+		}else if(pid < 0){
+			perror("it is error in fork");
+			exit(1);
+		}else{
+			waitpid(pid,&status,0);
+			if(WIFEXITED(status)){
+				int exit_code = WEXITSTATUS(status);
+				printf("Child process exited with code %d\n",exit_code);
+			}
+		}
 	}
 	return 0;
 }
