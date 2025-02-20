@@ -27,6 +27,10 @@ int main(void){
 		args = remove_space(str);
 		pid = fork();
 		if(pid == 0){
+			if(is_kernel_instruction(args[0])){
+				do_function(args,envp);
+				exit(1);
+			}
 			execve(args[0],args,envp);
 			exit(1);
 		}else if(pid < 0){

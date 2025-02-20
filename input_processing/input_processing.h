@@ -11,8 +11,8 @@
 #include<string.h>
 #include<stdio.h>
 #include<stdlib.h>
-#define MAXSTRNUM 10
-#define MAXSTR 10
+#define MAXSTRNUM 256
+#define MAXSTR 256
 
 char ** remove_space(const char *str);
 

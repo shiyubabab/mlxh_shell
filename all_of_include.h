@@ -13,7 +13,8 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include "input_processing.h"
+#include "./input_processing/input_processing.h"
+#include "./instruction_of_kernel/kernel_func.h"
 
 #define MAXINPUT 100
 #define MAXPATH 256
