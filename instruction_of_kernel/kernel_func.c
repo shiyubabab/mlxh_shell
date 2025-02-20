@@ -15,6 +15,9 @@ static ins_t string2enum(const char *instruction){
 	if(!strcmp(instruction,"wc")){
 		return WC;
 	}
+	if(!strcmp(instruction,"git")){
+		return GIT;
+	}
 	return DEFAULT;
 }
 
@@ -28,6 +31,9 @@ int is_kernel_instruction(const char *instruction){
 		case 1:
 			ret = 1;
 			break;
+		case 2:
+			ret = 1;
+			break;
 		default:
 			ret = 0;
 			break;
@@ -37,6 +43,10 @@ int is_kernel_instruction(const char *instruction){
 
 static void ls_function(char **args,char **envp){
 	execve("/usr/bin/ls",args,envp);
+}
+
+static void git_function(char **args,char **envp){
+	execve("/usr/bin/git",args,envp);
 }
 
 static void wc_function(char **args,char **envp){
@@ -55,6 +65,9 @@ void do_function(char **args,char **envp){
 			break;
 		case 1:
 			wc_function(args,envp);
+			break;
+		case 2:
+			git_function(args,envp);
 			break;
 		default:
 			break;

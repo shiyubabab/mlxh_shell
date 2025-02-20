@@ -17,6 +17,7 @@
 typedef enum instruction_of_kernel{
 	LS=0,
 	WC,
+	GIT,
 	DEFAULT
 }ins_t;
 
