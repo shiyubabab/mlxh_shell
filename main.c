@@ -20,7 +20,12 @@ int main(void){
 			exit(0);
 		}
 		char *envp[]={
-			currentPath,"TERM=console",NULL
+			currentPath,
+			"SHELL=/usr/bin/fish",
+			"HOME=/home/mlxh",
+			"USER=mlxh",
+			"TERM=console",
+			NULL
 		};
 		printf(GREEN BOLD "mlxh_shell " RESET YELLOW "[%s]" RESET WHITE BOLD" > " RESET,currentPath);
 		gets(str);
