@@ -30,6 +30,9 @@ char **remove_space(const char *str){
 				break;
 			}
 		}
+		#ifdef DEBUG
+		printf("%s",args[str_num]);
+		#endif
 		str_num++;
 		if(str_num>MAXSTRNUM){
 			perror("it is out of size for input word.");
