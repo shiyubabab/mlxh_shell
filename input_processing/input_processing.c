@@ -22,7 +22,8 @@ char **remove_space(const char *str){
 		int x=0;
 		while((i<length) && (flag || str[i]!=' ')){
 			args[str_num][x++] = str[i++];
-            if(str[i] == '"') flag = (flag+1)%2;
+			if(str[i] == '"')
+				flag = (flag+1)%2;
 			if(x>MAXSTR){
 				perror("it is out of size for input word char.");
 				break;
