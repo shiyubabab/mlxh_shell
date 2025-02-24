@@ -19,24 +19,16 @@ int main(void){
 			perror("getcwd error");
 			exit(0);
 		}
-		char *envp[]={
-			currentPath,
-			"SHELL=/usr/bin/fish",
-			"HOME=/home/mlxh",
-			"USER=mlxh",
-			"TERM=console",
-			NULL
-		};
 		printf(GREEN BOLD "mlxh_shell " RESET YELLOW "[%s]" RESET WHITE BOLD" > " RESET,currentPath);
 		gets(str);
 		args = remove_space(str);
 		pid = fork();
 		if(pid == 0){
 			if(is_kernel_instruction(args[0])){
-				do_function(args,envp);
+				do_function(args,environ);
 				exit(1);
 			}
-			execve(args[0],args,envp);
+			execve(args[0],args,environ);
 			exit(1);
 		}else if(pid < 0){
 			perror("it is error in fork");

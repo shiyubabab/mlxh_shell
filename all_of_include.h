@@ -30,6 +30,8 @@
 #define BOLD "\033[1m"
 #define RESET "\033[0m" 
 
+extern char **environ;
+
 #endif
 
 
