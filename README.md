@@ -9,4 +9,5 @@
 * 终端显示 : *mlxh_shell [pwd] > 在这里输入指令*
 ### Case
 + *mlxh_shell [/home/user/mlxh_shell] > ls -la*
++ *mlxh_shell [/home/user/mlxh_shell] > gcc -o prog ./test.c*
 + *mlxh_shell [/home/user/mlxh_shell] > ./prog*
