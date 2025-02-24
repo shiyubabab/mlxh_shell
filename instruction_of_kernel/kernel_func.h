@@ -11,15 +11,10 @@
 #include<stdlib.h>
 #include<string.h>
 #include<unistd.h>
+#include<dirent.h>
+#include<sys/stat.h>
 #include<sys/types.h>
 #include<sys/wait.h>
-
-typedef enum instruction_of_kernel{
-	LS=0,
-	WC,
-	GIT,
-	DEFAULT
-}ins_t;
 
 int is_kernel_instruction(const char *instruction);
 void do_function(char **args,char **envp);

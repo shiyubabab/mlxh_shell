@@ -7,70 +7,28 @@
 
 #include"kernel_func.h"
 
+static char dirname[] = "/usr/bin";
 
-static ins_t string2enum(const char *instruction){
-	if(!strcmp(instruction,"ls")){
-		return LS;
+static int is_executable(const char *filepath){
+	struct stat st;
+	if(stat(filepath,&st)==0){
+		if(st.st_mode & S_IXUSR || st.st_mode & S_IXGRP || st.st_mode & S_IXOTH){
+			return 1;
+		}
 	}
-	if(!strcmp(instruction,"wc")){
-		return WC;
-	}
-	if(!strcmp(instruction,"git")){
-		return GIT;
-	}
-	return DEFAULT;
+	return 0;
 }
 
 int is_kernel_instruction(const char *instruction){
-	int ret = 0;
-	ins_t type_of_ins = string2enum(instruction);
-	switch(type_of_ins){
-		case 0:
-			ret = 1;
-			break;
-		case 1:
-			ret = 1;
-			break;
-		case 2:
-			ret = 1;
-			break;
-		default:
-			ret = 0;
-			break;
-	}
-	return ret;
+	char filepath[1024];
+	snprintf(filepath,sizeof(filepath),"%s/%s",dirname,instruction);
+	return is_executable(filepath);
 }
 
-static void ls_function(char **args,char **envp){
-	execve("/usr/bin/ls",args,envp);
-}
-
-static void git_function(char **args,char **envp){
-	execve("/usr/bin/git",args,envp);
-}
-
-static void wc_function(char **args,char **envp){
-	if(!args[1]){
-		perror("it is less paramters for wc instruction.");
-		exit(0);
-	}
-	execve("/usr/bin/wc",args,envp);
-}
 
 void do_function(char **args,char **envp){
-	ins_t type_of_ins = string2enum(args[0]);
-	switch(type_of_ins){
-		case 0:
-			ls_function(args,envp);
-			break;
-		case 1:
-			wc_function(args,envp);
-			break;
-		case 2:
-			git_function(args,envp);
-			break;
-		default:
-			break;
-	}
+	char filepath[1024];
+	snprintf(filepath,sizeof(filepath),"%s/%s",dirname,args[0]);
+	execve(filepath,args,envp);
 }
 
