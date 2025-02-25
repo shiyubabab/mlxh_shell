@@ -14,6 +14,6 @@
 #define MAXSTRNUM 256
 #define MAXSTR 256
 
-char ** remove_space(const char *str);
+char ** remove_space(const char *str, int *ifpipe);
 
 #endif

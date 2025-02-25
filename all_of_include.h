@@ -16,6 +16,7 @@
 #include <sys/wait.h>
 #include "./input_processing/input_processing.h"
 #include "./instruction_of_kernel/kernel_func.h"
+#include "./shell_IO/pipe_instruction.h"
 
 #define MAXINPUT 100
 #define MAXPATH 256

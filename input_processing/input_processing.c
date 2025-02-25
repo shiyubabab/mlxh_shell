@@ -7,7 +7,7 @@
 
 #include"input_processing.h"
 
-char **remove_space(const char *str){
+char **remove_space(const char *str,int *ifpipe){
 	int length = strlen(str);
 	int str_num = 0, i=0;
 	int in_quotes = 0;
@@ -19,9 +19,14 @@ char **remove_space(const char *str){
 			i++;
 			continue;
 		}
+		if(str[i] == '|' && !in_quotes){
+			i++;
+			*ifpipe = str_num;
+			continue;
+		}
 		args[str_num] = (char *)malloc(sizeof(char)*MAXSTR);
 		int x=0;
-		while((i<length) && (in_quotes || str[i]!=' ')){
+		while((i<length) && (in_quotes || str[i]!=' ') && (in_quotes || str[i]!='|')){
 			args[str_num][x++] = str[i++];
 			if(str[i] == '"')
 				in_quotes = !in_quotes;

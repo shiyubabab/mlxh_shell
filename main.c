@@ -47,8 +47,7 @@ int main(void){
 		char currentPath[MAXPATH];
 		char str[MAXINPUT];
 		char **args;
-		int status;
-		pid_t pid;
+		int ifpipe=0;
 
 		if(!getcwd(currentPath,sizeof(currentPath))){
 			perror("getcwd error");
@@ -56,23 +55,30 @@ int main(void){
 		}
 		printf(GREEN BOLD "mlxh_shell " RESET YELLOW "[%s]" RESET WHITE BOLD" > " RESET,currentPath);
 		gets(str);
-		args = remove_space(str);
-		pid = fork();
-		if(pid == 0){
-			if(is_kernel_instruction(args[0])){
-				do_function(args,environ);
-				exit(1);
-			}
-			execve(args[0],args,environ);
-			exit(1);
-		}else if(pid < 0){
-			perror("it is error in fork");
-			exit(1);
+		args = remove_space(str,&ifpipe);
+
+		if(ifpipe>0){
+			do_finctions_for_pipe(ifpipe,args);
 		}else{
-			waitpid(pid,&status,0);
-			if(WIFEXITED(status)){
-				int exit_code = WEXITSTATUS(status);
-				printf("Child process exited with code %d\n",exit_code);
+			int status;
+			pid_t pid;
+			pid = fork();
+			if(pid == 0){
+				if(is_kernel_instruction(args[0])){
+					do_function(args,environ);
+					exit(1);
+				}
+				execve(args[0],args,environ);
+				exit(1);
+			}else if(pid < 0){
+				perror("it is error in fork");
+				exit(1);
+			}else{
+				waitpid(pid,&status,0);
+				if(WIFEXITED(status)){
+					int exit_code = WEXITSTATUS(status);
+					printf("Child process exited with code %d\n",exit_code);
+				}
 			}
 		}
 	}
